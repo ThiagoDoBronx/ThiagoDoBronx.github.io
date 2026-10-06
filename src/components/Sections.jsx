@@ -1,5 +1,6 @@
 import ModelPicker from './ModelPicker';
 import { whatsappUrl } from '../lib/whatsapp';
+import { productParams, track } from '../lib/pixel';
 
 const pad = (n) => String(n).padStart(2, '0');
 
@@ -108,6 +109,7 @@ export function Finale({ product, index, model }) {
             href={whatsappUrl(number, message)}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => track('InitiateCheckout', { ...productParams(model), num_items: 1 })}
             className="group relative inline-block cursor-pointer overflow-hidden rounded-full border border-ink px-12 py-5 transition-colors duration-500 hover:text-paper"
           >
             <span className="label relative z-10 font-semibold">{product.cta.label}</span>

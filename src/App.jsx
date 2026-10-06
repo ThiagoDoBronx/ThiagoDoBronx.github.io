@@ -8,6 +8,7 @@ import { buildPoses, gsap, intro, pose, resetSpin } from './lib/choreography';
 import useLenis from './lib/useLenis';
 import useSpinControls from './lib/useSpinControls';
 import useBackgroundMusic from './lib/useBackgroundMusic';
+import { productParams, track } from './lib/pixel';
 
 const EASE = 'power4.out';
 
@@ -45,6 +46,7 @@ export default function App() {
         outgoingIndex: mainIndex,
       });
       setMainIndex(slots[slot]);
+      track('ViewContent', productParams(product.models[slots[slot]]));
     },
     [flight, mainIndex, slots],
   );

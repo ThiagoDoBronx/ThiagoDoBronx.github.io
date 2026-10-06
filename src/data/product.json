@@ -104,5 +104,7 @@
     "src": "audio/musica-de-fundo.mp3",
     "volume": 0.4,
     "title": "Sun Is Here Again — Lonely in the Rain"
-  }
+  },
+  "priceValue": 199.0,
+  "currency": "BRL"
 }

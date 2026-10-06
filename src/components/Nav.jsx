@@ -1,15 +1,16 @@
 import { forwardRef } from 'react';
 import { whatsappUrl } from '../lib/whatsapp';
+import { track } from '../lib/pixel';
 
 const Nav = forwardRef(function Nav({ product, music }, progressRef) {
   const contact = whatsappUrl(product.whatsapp.number, product.whatsapp.contact);
   return (
     <>
       <nav className="label fixed top-0 z-50 flex w-full items-start justify-between p-6 text-ink md:p-10">
-        <a href={contact} target="_blank" rel="noopener noreferrer" className="font-serif text-xl tracking-tight normal-case italic">
+        <a href={contact} target="_blank" rel="noopener noreferrer" onClick={() => track('Contact')} className="font-serif text-xl tracking-tight normal-case italic">
           {product.title}
         </a>
-        <a href={contact} target="_blank" rel="noopener noreferrer" className="text-right leading-relaxed">
+        <a href={contact} target="_blank" rel="noopener noreferrer" onClick={() => track('Contact')} className="text-right leading-relaxed">
           {product.collection.split(' / ').map((part, i) => (
             <span key={i} className="block">
               {part}

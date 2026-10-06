@@ -22,7 +22,7 @@ export default function AcrylicStand({ texture: src }) {
 
   return (
     <group>
-      <RoundedBox args={[PANEL.w, PANEL.h, PANEL.t]} radius={0.025} smoothness={4} position={[0, PANEL_Y, 0]} castShadow>
+      <RoundedBox args={[PANEL.w, PANEL.h, PANEL.t]} radius={0.025} smoothness={4} position={[0, PANEL_Y, 0]}>
         <Acrylic />
       </RoundedBox>
       <group position={[0, PANEL_Y, 0]}>
@@ -40,7 +40,6 @@ export default function AcrylicStand({ texture: src }) {
         radius={0.025}
         smoothness={4}
         position={[0, bottom - 0.03 + PANEL.t / 2, -0.09 - BASE_DEPTH / 2 + 0.03]}
-        castShadow
       >
         <Acrylic />
       </RoundedBox>

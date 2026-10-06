@@ -14,7 +14,7 @@ export default function SquarePlaque({ texture: src }) {
 
   return (
     <group position={[0, 0.1, 0]}>
-      <RoundedBox args={[SIZE, SIZE, THICKNESS]} radius={0.14} smoothness={6} castShadow>
+      <RoundedBox args={[SIZE, SIZE, THICKNESS]} radius={0.14} smoothness={6}>
         <Acrylic opacity={0.4} />
       </RoundedBox>
       <Print texture={texture} width={w} height={h} z={front + 0.0015} />

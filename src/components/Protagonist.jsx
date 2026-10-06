@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
-import { ContactShadows, Float } from '@react-three/drei';
+import { Float } from '@react-three/drei';
 import { THUMB_POSE, gsap, intro, pose, showcaseWeight, spin } from '../lib/choreography';
 import Mockup from './mockups/Mockup';
+import SoftShadow from './SoftShadow';
 
 const MODEL_HEIGHT = 3.3; // world units, roughly every mockup's height
 const { lerp } = THREE.MathUtils;
@@ -107,7 +108,7 @@ export default function Protagonist({ model, flight, onFlightDone, shadowColor, 
             </Float>
           </group>
         </group>
-        <ContactShadows position={[0, -1.8, 0]} opacity={0.3} scale={8} blur={2.6} far={3} color={shadowColor} />
+        <SoftShadow color={shadowColor} opacity={0.22} />
       </group>
       {flight && (
         <group ref={outgoing}>

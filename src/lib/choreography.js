@@ -54,7 +54,7 @@ export const intro = { v: 0 };
  * `m` (0…1) is how much the portrait-screen layout shift applies.
  */
 export function buildPoses(sections) {
-  const poses = [SHOWCASE, { x: 0.38, y: 0, rotY: -0.12, rotZ: -0.03, scale: 1, m: 1 }];
+  const poses = [SHOWCASE, { x: 0.52, y: 0, rotY: -0.12, rotZ: -0.03, scale: 0.95, m: 1 }];
 
   sections.forEach((section, i) => {
     const side = section.align === 'right' ? -1 : 1;

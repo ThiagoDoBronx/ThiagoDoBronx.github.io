@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 const Nav = forwardRef(function Nav({ product }, progressRef) {
   return (
     <>
-      <nav className="label fixed top-0 z-50 flex w-full items-start justify-between p-6 text-white mix-blend-difference md:p-10">
+      <nav className="label fixed top-0 z-50 flex w-full items-start justify-between p-6 text-ink md:p-10">
         <a href="#top" className="font-serif text-xl tracking-tight normal-case italic">
           {product.title}
         </a>
@@ -15,7 +15,7 @@ const Nav = forwardRef(function Nav({ product }, progressRef) {
           ))}
         </div>
       </nav>
-      <div className="label pointer-events-none fixed bottom-0 z-50 flex w-full items-end justify-between p-6 text-white mix-blend-difference md:p-10">
+      <div className="label pointer-events-none fixed bottom-0 z-50 flex w-full items-end justify-between p-6 text-ink md:p-10">
         <span>
           {product.name} — {product.price}
         </span>

@@ -17,7 +17,6 @@ export default function GltfModel({ path }) {
     const wrapper = new THREE.Group();
     wrapper.add(clone);
     wrapper.scale.setScalar(TARGET_HEIGHT / Math.max(size.y, 1e-6));
-    clone.traverse((o) => o.isMesh && (o.castShadow = true));
     return wrapper;
   }, [scene]);
   return <primitive object={object} />;

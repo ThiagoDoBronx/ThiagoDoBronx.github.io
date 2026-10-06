@@ -59,27 +59,27 @@ function contactless() {
   return shapes;
 }
 
-/** Fine hammered texture used as bump + roughness map for the panel. */
-function useHammeredTexture() {
-  return useMemo(() => {
-    const size = 512;
-    const canvas = document.createElement('canvas');
-    canvas.width = canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#808080';
-    ctx.fillRect(0, 0, size, size);
-    for (let i = 0; i < 9000; i++) {
-      const v = 90 + Math.random() * 80;
-      ctx.fillStyle = `rgba(${v},${v},${v},0.55)`;
-      ctx.beginPath();
-      ctx.ellipse(Math.random() * size, Math.random() * size, 1 + Math.random() * 4, 1 + Math.random() * 3, Math.random() * Math.PI, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    const tex = new THREE.CanvasTexture(canvas);
-    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
-    tex.repeat.set(2, 3);
-    return tex;
-  }, []);
+/** Fine hammered texture used as bump + roughness map; built once, shared. */
+let hammered = null;
+function hammeredTexture() {
+  if (hammered) return hammered;
+  const size = 512;
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#808080';
+  ctx.fillRect(0, 0, size, size);
+  for (let i = 0; i < 9000; i++) {
+    const v = 90 + Math.random() * 80;
+    ctx.fillStyle = `rgba(${v},${v},${v},0.55)`;
+    ctx.beginPath();
+    ctx.ellipse(Math.random() * size, Math.random() * size, 1 + Math.random() * 4, 1 + Math.random() * 3, Math.random() * Math.PI, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  hammered = new THREE.CanvasTexture(canvas);
+  hammered.wrapS = hammered.wrapT = THREE.RepeatWrapping;
+  hammered.repeat.set(2, 3);
+  return hammered;
 }
 
 function Relief({ shapes, scale, position, color, ...material }) {
@@ -101,7 +101,7 @@ function Relief({ shapes, scale, position, color, ...material }) {
   return (
     <group position={position} scale={scale}>
       {geometries.map(({ geometry, color: c }, i) => (
-        <mesh key={i} geometry={geometry} castShadow>
+        <mesh key={i} geometry={geometry}>
           <meshStandardMaterial color={c ?? color} emissive={c ?? color} emissiveIntensity={c ? 0.35 : 0} roughness={0.55} {...material} />
         </mesh>
       ))}
@@ -112,7 +112,7 @@ function Relief({ shapes, scale, position, color, ...material }) {
 /** L-shaped stand with a raised Google "G" and contactless icon (gold or black finish). */
 export default function EmbossedStand({ finish = 'gold' }) {
   const f = FINISHES[finish] ?? FINISHES.gold;
-  const bump = useHammeredTexture();
+  const bump = hammeredTexture();
   const g = useMemo(() => googleG(), []);
   const nfc = useMemo(() => contactless().map((shape) => ({ shape })), []);
   const bottom = PANEL_Y - PANEL.h / 2;
@@ -134,7 +134,7 @@ export default function EmbossedStand({ finish = 'gold' }) {
 
   return (
     <group>
-      <RoundedBox args={[PANEL.w, PANEL.h, PANEL.t]} radius={0.02} smoothness={3} position={[0, PANEL_Y, 0]} castShadow receiveShadow>
+      <RoundedBox args={[PANEL.w, PANEL.h, PANEL.t]} radius={0.02} smoothness={3} position={[0, PANEL_Y, 0]}>
         {material}
       </RoundedBox>
       <RoundedBox
@@ -142,8 +142,6 @@ export default function EmbossedStand({ finish = 'gold' }) {
         radius={0.02}
         smoothness={3}
         position={[0, bottom + PANEL.t / 2, -BASE_DEPTH / 2 + PANEL.t / 2]}
-        castShadow
-        receiveShadow
       >
         {material}
       </RoundedBox>

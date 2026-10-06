@@ -1,10 +1,10 @@
 {
   "id": "prod_01",
-  "name": "Ethereal Blend",
+  "name": "Placa NFC",
   "title": "Vitrine Viva",
   "brand": "VITRINE VIVA",
   "collection": "Vitrine Viva 2026 / Series NFC",
-  "price": "$32.00",
+  "price": "R$ 199,00",
   "colors": ["#f8f7f4", "#1a1a1a"],
   "models": [
     { "id": "acrilico-l", "label": "Acrílico", "type": "stand", "texture": "textures/placa-google.webp", "thumb": "thumbs/acrilico-l.webp" },
@@ -13,7 +13,7 @@
     { "id": "preta", "label": "Preta", "type": "embossed", "finish": "black", "thumb": "thumbs/preta.webp" }
   ],
   "hero": {
-    "headline": ["Placas NFC", "E ganhe um site"],
+    "headline": ["Seja reconhecido", "Placas NFC"],
     "tagline": "Sua empresa precisa se destacar das outras, com qualidade premium entregamos resultados, e não apenas uma placa comum para avaliações!"
   },
   "sections": [

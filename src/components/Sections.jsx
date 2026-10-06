@@ -27,7 +27,7 @@ export function Hero({ hero }) {
   return (
     <section data-section className="relative flex h-svh items-end px-[8vw] pb-[17vh] md:items-center md:pb-0">
       <div className="relative z-20">
-        <h2 className="font-serif text-[10.5vw] leading-[0.9] font-normal whitespace-nowrap italic md:text-[10vw]">
+        <h2 className="font-serif text-[10.5vw] leading-[0.9] font-normal whitespace-nowrap italic md:text-[8vw]">
           <span className="line">
             <span data-reveal-line>{first}</span>
           </span>
@@ -54,12 +54,13 @@ export function StorySection({ section, index }) {
       data-section
       className={`relative flex h-svh items-end px-[8vw] pb-[14vh] md:items-center md:pb-0 ${right ? 'justify-end' : 'justify-start'}`}
     >
-      {/* Depth layer: oversized numeral sits *behind* the 3D object. */}
+      {/* Depth layer: oversized numeral behind the copy, on the text side, so
+          the 3D object (always on the opposite side) never covers it. */}
       <span
         data-parallax
         aria-hidden="true"
-        className={`pointer-events-none absolute top-[12%] z-0 font-serif text-[38vw] leading-none italic opacity-[0.06] select-none md:text-[26vw] ${
-          right ? 'left-[4vw]' : 'right-[4vw]'
+        className={`pointer-events-none absolute bottom-[6vh] z-0 font-serif text-[38vw] leading-none italic opacity-[0.06] select-none md:top-[4%] md:bottom-auto md:text-[24vw] ${
+          right ? 'right-[4vw]' : 'left-[4vw]'
         }`}
       >
         {pad(index + 1)}

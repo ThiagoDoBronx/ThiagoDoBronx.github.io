@@ -4,8 +4,8 @@ const Nav = forwardRef(function Nav({ product }, progressRef) {
   return (
     <>
       <nav className="label fixed top-0 z-50 flex w-full items-start justify-between p-6 text-white mix-blend-difference md:p-10">
-        <a href="#top" className="text-xl font-semibold tracking-tighter normal-case">
-          AURA™
+        <a href="#top" className="font-serif text-xl tracking-tight normal-case italic">
+          {product.title}
         </a>
         <div className="text-right leading-relaxed">
           {product.collection.split(' / ').map((part, i) => (

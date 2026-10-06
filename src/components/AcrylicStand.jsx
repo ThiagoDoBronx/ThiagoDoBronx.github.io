@@ -41,29 +41,15 @@ export default function AcrylicStand({ texture: src }) {
         <Acrylic />
       </RoundedBox>
 
-      {/* Printed artwork (front): unlit so the print keeps its true colours… */}
+      {/* Printed artwork (front): unlit so the print keeps its true colours. */}
       <mesh position={[0, PANEL_Y, front + 0.0015]}>
         <planeGeometry args={[print.w, print.h]} />
         <meshBasicMaterial map={texture} toneMapped={false} />
       </mesh>
-      {/* …with a glossy acrylic layer on top that only adds reflections. */}
-      <mesh position={[0, PANEL_Y, front + 0.003]}>
-        <planeGeometry args={[PANEL.w - 0.01, PANEL.h - 0.01]} />
-        <meshPhysicalMaterial
-          color="#000"
-          roughness={0.06}
-          clearcoat={1}
-          clearcoatRoughness={0.03}
-          envMapIntensity={0.3}
-          transparent
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-        />
-      </mesh>
       {/* White backing (seen through the acrylic from behind) */}
       <mesh position={[0, PANEL_Y, front - 0.001]} rotation={[0, Math.PI, 0]}>
         <planeGeometry args={[print.w, print.h]} />
-        <meshStandardMaterial color="#f4f4f2" roughness={0.8} />
+        <meshStandardMaterial color="#ffffff" emissive="#e6e6e3" emissiveIntensity={0.55} roughness={0.8} />
       </mesh>
 
       {/* Bend + foot extending backwards */}

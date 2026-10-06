@@ -1,23 +1,36 @@
 const pad = (n) => String(n).padStart(2, '0');
 
+/** Opening screen: only the 3D plaque (rendered by the fixed canvas) and a hint. */
+export function Showcase({ title }) {
+  return (
+    <section id="top" data-section className="relative flex h-svh items-end justify-center pb-[12vh] md:pb-[10vh]">
+      <h1 className="sr-only">{title}</h1>
+      <p data-hero-fade className="label relative z-20 text-center opacity-50">
+        <span className="hidden md:inline">Passe o mouse para girar 360°</span>
+        <span className="md:hidden">Arraste para girar 360°</span>
+      </p>
+    </section>
+  );
+}
+
 export function Hero({ hero }) {
   const [first, ...rest] = hero.headline;
   return (
-    <section id="top" data-section className="relative flex h-svh items-end px-[8vw] pb-[14vh] md:items-center md:pb-0">
+    <section data-section className="relative flex h-svh items-end px-[8vw] pb-[14vh] md:items-center md:pb-0">
       <div className="relative z-20">
-        <h1 className="font-serif text-[12.5vw] leading-[0.85] font-normal italic md:text-[10vw]">
+        <h2 className="font-serif text-[12.5vw] leading-[0.85] font-normal italic md:text-[10vw]">
           <span className="line">
-            <span data-hero>{first}</span>
+            <span data-reveal-line>{first}</span>
           </span>
           {rest.map((word) => (
             <span key={word} className="line pl-[4vw] md:pl-[8vw]">
-              <span data-hero>
+              <span data-reveal-line>
                 {word}
               </span>
             </span>
           ))}
-        </h1>
-        <p data-hero-fade className="label mt-6 max-w-xs leading-loose md:mt-10 opacity-50">
+        </h2>
+        <p data-reveal className="label mt-6 max-w-xs leading-loose text-ink/50 md:mt-10">
           {hero.tagline}
         </p>
       </div>

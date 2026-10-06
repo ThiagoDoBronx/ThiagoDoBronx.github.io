@@ -3,9 +3,10 @@ import product from './data/product.json';
 import Scene from './components/Scene';
 import Loader from './components/Loader';
 import Nav from './components/Nav';
-import { Finale, Hero, StorySection } from './components/Sections';
+import { Finale, Hero, Showcase, StorySection } from './components/Sections';
 import { buildPoses, gsap, intro, pose } from './lib/choreography';
 import useLenis from './lib/useLenis';
+import useSpinControls from './lib/useSpinControls';
 
 const EASE = 'power4.out';
 
@@ -20,6 +21,7 @@ export default function App() {
     [],
   );
   const lenis = useLenis(!reducedMotion);
+  useSpinControls();
   const poses = useMemo(() => buildPoses(product.sections), []);
 
   const onSceneReady = useCallback(() => setSceneReady(true), []);
@@ -30,7 +32,7 @@ export default function App() {
     const [paper, ink] = product.colors;
     document.documentElement.style.setProperty('--color-paper', paper);
     document.documentElement.style.setProperty('--color-ink', ink);
-    document.title = `${product.brand.split(' ')[0]} — ${product.name}`;
+    document.title = product.title;
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
   }, []);
@@ -98,20 +100,18 @@ export default function App() {
           .to(items, { autoAlpha: 1, y: 0, duration: 1.2, stagger: 0.08, ease: EASE }, 0.1);
       });
 
-      gsap.set('[data-hero]', { yPercent: 110 });
       gsap.set('[data-hero-fade]', { autoAlpha: 0, y: 20 });
     }, container);
     return () => ctx.revert();
   }, [poses]);
 
-  // Intro once the loader is gone: headline rises, object spins into place.
+  // Intro once the loader is gone: the object spins into place, the hint fades in.
   useEffect(() => {
     if (!entered) return;
     const tl = gsap
       .timeline()
       .to(intro, { v: 1, duration: reducedMotion ? 0 : 2.2, ease: EASE }, 0)
-      .to('[data-hero]', { yPercent: 0, duration: 1.6, stagger: 0.12, ease: EASE }, 0)
-      .to('[data-hero-fade]', { autoAlpha: 0.5, y: 0, duration: 1.4, ease: EASE }, 0.5);
+      .to('[data-hero-fade]', { autoAlpha: 0.5, y: 0, duration: 1.4, ease: EASE }, 1);
     return () => tl.kill();
   }, [entered, reducedMotion]);
 
@@ -124,6 +124,7 @@ export default function App() {
       <Nav ref={progress} product={product} />
 
       <main ref={container} className="main-container relative">
+        <Showcase title={product.title} />
         <Hero hero={product.hero} />
         {product.sections.map((section, i) => (
           <StorySection key={section.title} section={section} index={i} />

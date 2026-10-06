@@ -28,7 +28,7 @@ export default function Scene({ product, reducedMotion, onReady }) {
           <Lightformer form="rect" intensity={4} position={[0, 4, -6]} scale={[12, 2, 1]} />
           <Lightformer form="rect" intensity={2.5} position={[-6, 1, 0]} rotation-y={Math.PI / 2} scale={[8, 2, 1]} />
           <Lightformer form="rect" intensity={2.5} position={[6, 1, 0]} rotation-y={-Math.PI / 2} scale={[8, 2, 1]} />
-          <Lightformer form="ring" intensity={1.5} position={[0, 1, 6]} scale={3} />
+          <Lightformer form="ring" intensity={1.5} position={[5, 4, 6]} scale={3} />
         </Environment>
       </Canvas>
     </div>

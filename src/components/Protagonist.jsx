@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Float, useGLTF } from '@react-three/drei';
-import { intro, pose } from '../lib/choreography';
+import { intro, pose, showcaseWeight, spin } from '../lib/choreography';
 import AcrylicStand from './AcrylicStand';
 
 const TARGET_HEIGHT = 3.4;
@@ -84,7 +84,7 @@ function GltfModel({ path }) {
 
 export default function Protagonist({ product, reducedMotion, onReady }) {
   const travel = useRef();
-  const spin = useRef();
+  const turn = useRef();
   const tilt = useRef();
   const { viewport } = useThree();
   const [paper, ink] = product.colors;
@@ -93,30 +93,34 @@ export default function Protagonist({ product, reducedMotion, onReady }) {
     onReady?.();
   }, [onReady]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const narrow = viewport.aspect < 0.8;
     const halfW = viewport.width / 2;
     const halfH = viewport.height / 2;
     // On portrait screens the object can't sit beside the copy, so it lives
     // in the upper half (copy sits at the bottom) and drifts less sideways.
     const xRange = narrow ? 0.3 : 1;
-    const yShift = narrow ? halfH * 0.3 : 0;
+    const yShift = narrow ? halfH * 0.3 * pose.m : 0;
     const base = narrow ? Math.min(0.7, viewport.width / 4.2) : 1;
     const k = intro.v;
 
     travel.current.position.set(pose.x * halfW * xRange, pose.y * halfH * (narrow ? 0.3 : 1) + yShift, 0);
     travel.current.scale.setScalar(pose.scale * base * (0.6 + 0.4 * k));
-    spin.current.rotation.set(0, pose.rotY - (1 - k) * Math.PI, pose.rotZ);
+    // Free spin only counts while the showcase header is on screen.
+    const w = showcaseWeight();
+    spin.current = THREE.MathUtils.damp(spin.current, spin.target, 4, delta);
+    turn.current.rotation.set(0, pose.rotY - (1 - k) * Math.PI + spin.current * w, pose.rotZ);
 
-    // Mouse parallax: soft lerp towards the pointer.
+    // Mouse parallax: soft lerp towards the pointer (the free spin replaces
+    // the sideways tilt in the showcase).
     const { x, y } = state.pointer;
-    tilt.current.rotation.y = THREE.MathUtils.lerp(tilt.current.rotation.y, x * 0.5, 0.1);
+    tilt.current.rotation.y = THREE.MathUtils.lerp(tilt.current.rotation.y, x * 0.5 * (1 - w), 0.1);
     tilt.current.rotation.x = THREE.MathUtils.lerp(tilt.current.rotation.x, -y * 0.3, 0.1);
   });
 
   return (
     <group ref={travel}>
-      <group ref={spin}>
+      <group ref={turn}>
         <Float
           speed={reducedMotion ? 0 : 2}
           rotationIntensity={0.5}

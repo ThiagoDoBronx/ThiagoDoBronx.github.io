@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { whatsappUrl } from '../lib/whatsapp';
 
-const Nav = forwardRef(function Nav({ product }, progressRef) {
+const Nav = forwardRef(function Nav({ product, music }, progressRef) {
   const contact = whatsappUrl(product.whatsapp.number, product.whatsapp.contact);
   return (
     <>
@@ -21,8 +21,29 @@ const Nav = forwardRef(function Nav({ product }, progressRef) {
         <span>
           {product.name} — {product.price}
         </span>
-        <span>
-          Scroll <span ref={progressRef}>000</span>
+        <span className="flex items-end gap-5 md:gap-8">
+          {music?.available && (
+            <button
+              type="button"
+              data-sound-toggle
+              onClick={music.toggle}
+              aria-pressed={music.playing}
+              aria-label={music.playing ? 'Desligar música' : 'Ligar música'}
+              title={product.music?.title}
+              className="pointer-events-auto flex cursor-pointer items-end gap-2 uppercase"
+            >
+              <span aria-hidden="true" className={`sound-bars ${music.playing ? 'is-playing' : ''}`}>
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+              <span className="hidden md:inline">Som</span>
+            </button>
+          )}
+          <span>
+            Scroll <span ref={progressRef}>000</span>
+          </span>
         </span>
       </div>
     </>

@@ -7,6 +7,7 @@ import { Finale, Hero, Showcase, StorySection } from './components/Sections';
 import { buildPoses, gsap, intro, pose, resetSpin } from './lib/choreography';
 import useLenis from './lib/useLenis';
 import useSpinControls from './lib/useSpinControls';
+import useBackgroundMusic from './lib/useBackgroundMusic';
 
 const EASE = 'power4.out';
 
@@ -27,6 +28,7 @@ export default function App() {
   );
   const lenis = useLenis(!reducedMotion);
   useSpinControls();
+  const music = useBackgroundMusic(product.music);
   const poses = useMemo(() => buildPoses(product.sections), []);
 
   const onSceneReady = useCallback(() => setSceneReady(true), []);
@@ -154,7 +156,7 @@ export default function App() {
         reducedMotion={reducedMotion}
         onReady={onSceneReady}
       />
-      <Nav ref={progress} product={product} />
+      <Nav ref={progress} product={product} music={music} />
 
       <main ref={container} className="main-container relative">
         <Showcase

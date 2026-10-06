@@ -47,6 +47,12 @@ Modelos `.glb` devem ser comprimidos com Draco antes de publicar:
 npx gltf-pipeline -i modelo.glb -o public/models/modelo.glb -d
 ```
 
+## Música de fundo
+
+Coloque o arquivo em `public/audio/musica-de-fundo.mp3` (ou ajuste `music.src` no `product.json`). Volume em `music.volume` (0.4 = 40%).
+A música começa no primeiro toque/clique do visitante (os navegadores bloqueiam som automático), fica em loop, pausa quando a aba sai de foco e pode ser ligada/desligada pelo botão "Som" no rodapé. Sem o arquivo, o botão não aparece.
+Use apenas uma faixa que você tenha licença para usar em site comercial.
+
 ## Como a coreografia funciona
 
 - `src/lib/choreography.js` gera uma pose (posição, rotação, escala) por seção a partir de `sections[].align`.

@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { ContactShadows, Float, useGLTF } from '@react-three/drei';
 import { intro, pose } from '../lib/choreography';
+import AcrylicStand from './AcrylicStand';
 
 const TARGET_HEIGHT = 3.4;
 
@@ -124,13 +125,15 @@ export default function Protagonist({ product, reducedMotion, onReady }) {
           <group ref={tilt}>
             {product.modelPath ? (
               <GltfModel path={product.modelPath} />
+            ) : product.texture ? (
+              <AcrylicStand texture={product.texture} />
             ) : (
               <ProceduralBottle paper={paper} ink={ink} />
             )}
           </group>
         </Float>
       </group>
-      <ContactShadows position={[0, -2.25, 0]} opacity={0.35} scale={8} blur={2.6} far={3} color={ink} />
+      <ContactShadows position={[0, -1.8, 0]} opacity={0.3} scale={8} blur={2.6} far={3} color={ink} />
     </group>
   );
 }

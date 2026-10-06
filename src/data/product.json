@@ -6,6 +6,7 @@
   "price": "$32.00",
   "colors": ["#f8f7f4", "#1a1a1a"],
   "modelPath": null,
+  "texture": "textures/placa-google.webp",
   "hero": {
     "headline": ["Digital", "Craftsmanship"],
     "tagline": "Uma exploração sensorial através de geometria pura e interação responsiva."

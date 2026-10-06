@@ -11,7 +11,7 @@ export { gsap, ScrollTrigger };
  *
  * x / y are normalised to the half-viewport (-1 … 1), rotations in radians.
  */
-export const pose = { x: 0.38, y: 0, rotY: 0, rotZ: -0.08, scale: 1 };
+export const pose = { x: 0.38, y: 0, rotY: -0.32, rotZ: -0.05, scale: 1 };
 
 /** Intro factor (0 → 1) played once the loader lifts. */
 export const intro = { v: 0 };
@@ -22,25 +22,27 @@ export const intro = { v: 0 };
  * text column keeps its negative space and the object owns the other half.
  */
 export function buildPoses(sections) {
-  const poses = [{ x: 0.38, y: 0, rotY: 0, rotZ: -0.08, scale: 1 }];
+  const poses = [{ x: 0.38, y: 0, rotY: -0.32, rotZ: -0.05, scale: 1 }];
 
   sections.forEach((section, i) => {
     const side = section.align === 'right' ? -1 : 1;
     poses.push({
       x: 0.42 * side,
       y: i % 2 ? 0.08 : -0.06,
-      rotY: Math.PI * 0.85 * (i + 1),
-      rotZ: 0.12 * -side,
+      // Turn the face towards the copy, never past ~30° so the print stays legible.
+      rotY: -0.5 * side,
+      rotZ: 0.06 * -side,
       scale: 1.05 + (i % 2) * 0.1,
     });
   });
 
   poses.push({
     x: 0,
-    y: 0.28,
-    rotY: Math.PI * 2 * Math.ceil((sections.length + 1) / 2),
+    y: 0.16,
+    // One full turn on the way to the finale, landing face-on.
+    rotY: Math.PI * 2,
     rotZ: 0,
-    scale: 0.95,
+    scale: 0.85,
   });
 
   return poses;

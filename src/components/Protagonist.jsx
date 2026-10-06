@@ -1,97 +1,32 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
-import { ContactShadows, Float, useGLTF } from '@react-three/drei';
-import { intro, pose, showcaseWeight, spin } from '../lib/choreography';
-import AcrylicStand from './AcrylicStand';
+import { ContactShadows, Float } from '@react-three/drei';
+import { gsap, intro, pose, showcaseWeight, spin } from '../lib/choreography';
+import Mockup from './mockups/Mockup';
 
-const TARGET_HEIGHT = 3.4;
-
-/** Procedural bottle used when the product has no .glb yet. */
-function ProceduralBottle({ paper, ink }) {
-  const bodyGeometry = useMemo(() => {
-    const pts = [new THREE.Vector2(0, -1.7)];
-    // Rounded base.
-    for (let i = 0; i <= 8; i++) {
-      const a = -Math.PI / 2 + (i / 8) * (Math.PI / 2);
-      pts.push(new THREE.Vector2(0.8 + 0.15 * Math.cos(a), -1.55 + 0.15 * Math.sin(a)));
-    }
-    pts.push(new THREE.Vector2(0.95, 0.4));
-    // Shoulder into the neck.
-    const shoulder = new THREE.QuadraticBezierCurve(
-      new THREE.Vector2(0.95, 0.4),
-      new THREE.Vector2(0.95, 0.95),
-      new THREE.Vector2(0.34, 0.98),
-    );
-    pts.push(...shoulder.getPoints(24).slice(1));
-    pts.push(new THREE.Vector2(0.34, 1.2), new THREE.Vector2(0, 1.2));
-    return new THREE.LatheGeometry(pts, 128);
-  }, []);
-
-  return (
-    <group>
-      <mesh geometry={bodyGeometry} castShadow>
-        <meshPhysicalMaterial
-          color={ink}
-          roughness={0.12}
-          metalness={0.55}
-          clearcoat={1}
-          clearcoatRoughness={0.06}
-          transmission={0.2}
-          thickness={1}
-          ior={1.5}
-        />
-      </mesh>
-      {/* Matte sleeve */}
-      <mesh position={[0, -0.55, 0]}>
-        <cylinderGeometry args={[0.958, 0.958, 1.05, 128, 1, true]} />
-        <meshStandardMaterial color={paper} emissive={paper} emissiveIntensity={0.35} roughness={0.9} side={THREE.DoubleSide} />
-      </mesh>
-      <mesh position={[0, -0.02, 0]}>
-        <torusGeometry args={[0.958, 0.008, 12, 128]} />
-        <meshStandardMaterial color={ink} roughness={0.4} />
-      </mesh>
-      {/* Brushed metal cap */}
-      <mesh position={[0, 1.45, 0]} castShadow>
-        <cylinderGeometry args={[0.4, 0.4, 0.5, 96]} />
-        <meshPhysicalMaterial color="#cfc9bf" metalness={1} roughness={0.32} clearcoat={0.4} />
-      </mesh>
-      <mesh position={[0, 1.71, 0]}>
-        <cylinderGeometry args={[0.36, 0.4, 0.03, 96]} />
-        <meshPhysicalMaterial color="#cfc9bf" metalness={1} roughness={0.25} />
-      </mesh>
-    </group>
-  );
-}
-
-/** Any .glb, centred and normalised to the same height as the procedural mock. */
-function GltfModel({ path }) {
-  const { scene } = useGLTF(path, true);
-  const object = useMemo(() => {
-    const clone = scene.clone(true);
-    const box = new THREE.Box3().setFromObject(clone);
-    const size = box.getSize(new THREE.Vector3());
-    const center = box.getCenter(new THREE.Vector3());
-    clone.position.sub(center);
-    const wrapper = new THREE.Group();
-    wrapper.add(clone);
-    wrapper.scale.setScalar(TARGET_HEIGHT / Math.max(size.y, 1e-6));
-    clone.traverse((o) => o.isMesh && (o.castShadow = true));
-    return wrapper;
-  }, [scene]);
-  return <primitive object={object} />;
-}
-
-export default function Protagonist({ product, reducedMotion, onReady }) {
+export default function Protagonist({ model, shadowColor, reducedMotion, onReady }) {
   const travel = useRef();
+  const pitch = useRef();
   const turn = useRef();
   const tilt = useRef();
+  const swap = useRef({ v: 1 });
+  const [shown, setShown] = useState(model);
   const { viewport } = useThree();
-  const [paper, ink] = product.colors;
 
   useEffect(() => {
     onReady?.();
   }, [onReady]);
+
+  // Switching mockups: shrink + half-turn out, swap, grow back in.
+  useEffect(() => {
+    if (model.id === shown.id) return;
+    const tl = gsap
+      .timeline()
+      .to(swap.current, { v: 0, duration: 0.35, ease: 'power4.in', onComplete: () => setShown(model) })
+      .to(swap.current, { v: 1, duration: 1, ease: 'power4.out' });
+    return () => tl.kill();
+  }, [model, shown.id]);
 
   useFrame((state, delta) => {
     const narrow = viewport.aspect < 0.8;
@@ -103,41 +38,37 @@ export default function Protagonist({ product, reducedMotion, onReady }) {
     const yShift = narrow ? halfH * 0.3 * pose.m : 0;
     const base = narrow ? Math.min(0.7, viewport.width / 4.2) : 1;
     const k = intro.v;
+    const s = swap.current.v;
 
     travel.current.position.set(pose.x * halfW * xRange, pose.y * halfH * (narrow ? 0.3 : 1) + yShift, 0);
-    travel.current.scale.setScalar(pose.scale * base * (0.6 + 0.4 * k));
-    // Free spin only counts while the showcase header is on screen.
+    travel.current.scale.setScalar(pose.scale * base * (0.6 + 0.4 * k) * (0.15 + 0.85 * s));
+
+    // Free 360° spin (both axes) only counts while the showcase is on screen.
     const w = showcaseWeight();
     spin.current = THREE.MathUtils.damp(spin.current, spin.target, 4, delta);
-    turn.current.rotation.set(0, pose.rotY - (1 - k) * Math.PI + spin.current * w, pose.rotZ);
+    spin.pitch = THREE.MathUtils.damp(spin.pitch, spin.pitchTarget, 4, delta);
+    pitch.current.rotation.x = spin.pitch * w;
+    turn.current.rotation.set(0, pose.rotY - (1 - k) * Math.PI - (1 - s) * Math.PI + spin.current * w, pose.rotZ);
 
     // Mouse parallax: soft lerp towards the pointer (the free spin replaces
-    // the sideways tilt in the showcase).
+    // it in the showcase).
     const { x, y } = state.pointer;
     tilt.current.rotation.y = THREE.MathUtils.lerp(tilt.current.rotation.y, x * 0.5 * (1 - w), 0.1);
-    tilt.current.rotation.x = THREE.MathUtils.lerp(tilt.current.rotation.x, -y * 0.3, 0.1);
+    tilt.current.rotation.x = THREE.MathUtils.lerp(tilt.current.rotation.x, -y * 0.3 * (1 - w), 0.1);
   });
 
   return (
     <group ref={travel}>
-      <group ref={turn}>
-        <Float
-          speed={reducedMotion ? 0 : 2}
-          rotationIntensity={0.5}
-          floatIntensity={reducedMotion ? 0 : 1}
-        >
-          <group ref={tilt}>
-            {product.modelPath ? (
-              <GltfModel path={product.modelPath} />
-            ) : product.texture ? (
-              <AcrylicStand texture={product.texture} />
-            ) : (
-              <ProceduralBottle paper={paper} ink={ink} />
-            )}
-          </group>
-        </Float>
+      <group ref={pitch}>
+        <group ref={turn}>
+          <Float speed={reducedMotion ? 0 : 2} rotationIntensity={0.5} floatIntensity={reducedMotion ? 0 : 1}>
+            <group ref={tilt}>
+              <Mockup model={shown} />
+            </group>
+          </Float>
+        </group>
       </group>
-      <ContactShadows position={[0, -1.8, 0]} opacity={0.3} scale={8} blur={2.6} far={3} color={ink} />
+      <ContactShadows position={[0, -1.8, 0]} opacity={0.3} scale={8} blur={2.6} far={3} color={shadowColor} />
     </group>
   );
 }

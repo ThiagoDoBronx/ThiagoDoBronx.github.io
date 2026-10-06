@@ -1,13 +1,22 @@
+import ModelPicker from './ModelPicker';
+
 const pad = (n) => String(n).padStart(2, '0');
 
-/** Opening screen: only the 3D plaque (rendered by the fixed canvas) and a hint. */
-export function Showcase({ title }) {
+/** Opening screen: only the 3D plaque (rendered by the fixed canvas), the model picker and a hint. */
+export function Showcase({ title, models, selected, onSelect }) {
   return (
-    <section id="top" data-section className="relative flex h-svh items-end justify-center pb-[12vh] md:pb-[10vh]">
+    <section id="top" data-section className="relative flex h-svh items-end justify-center pb-[10vh]">
       <h1 className="sr-only">{title}</h1>
+      {/* Touch area for spinning; outside it the page scrolls normally. */}
+      <div data-spin-stage className="absolute inset-x-[10vw] top-[12vh] bottom-[34vh] touch-none md:hidden" />
+
+      <div className="absolute inset-x-0 bottom-[17vh] z-30 flex justify-center md:inset-x-auto md:right-[5vw] md:bottom-auto md:top-1/2 md:-translate-y-1/2">
+        <ModelPicker models={models} selected={selected} onSelect={onSelect} />
+      </div>
+
       <p data-hero-fade className="label relative z-20 text-center opacity-50">
         <span className="hidden md:inline">Passe o mouse para girar 360°</span>
-        <span className="md:hidden">Arraste para girar 360°</span>
+        <span className="md:hidden">Arraste a placa para girar 360°</span>
       </p>
     </section>
   );

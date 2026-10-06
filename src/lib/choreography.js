@@ -14,11 +14,20 @@ export { gsap, ScrollTrigger };
 export const pose = { x: 0, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0 };
 
 /**
- * Free 360° spin driven by the pointer (mouse position / finger drag) while
+ * Free 360° spin (yaw + pitch) driven by the pointer (mouse / finger) while
  * the showcase header is on screen. `target` is set by input, `current`
  * eases towards it every frame.
  */
-export const spin = { target: 0, current: 0 };
+export const spin = { target: 0, current: 0, pitchTarget: 0, pitch: 0 };
+
+/** Bring the free spin back to face-on by the shortest way round. */
+export function resetSpin() {
+  const wrap = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+  spin.current = wrap(spin.current);
+  spin.pitch = wrap(spin.pitch);
+  spin.target = 0;
+  spin.pitchTarget = 0;
+}
 
 /** 1 while the showcase header fills the screen, fading to 0 as it scrolls away. */
 export function showcaseWeight() {

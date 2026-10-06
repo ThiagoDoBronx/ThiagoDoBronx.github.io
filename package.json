@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "bash scripts/deploy.sh"
+    "deploy": "bash scripts/deploy.sh",
+    "thumbs": "node scripts/thumbs.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.9",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.2",
+    "playwright": "^1.63.0",
     "tailwindcss": "^4.3.3",
     "vite": "^8.3.3"
   }

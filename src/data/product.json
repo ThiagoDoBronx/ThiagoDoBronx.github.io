@@ -6,8 +6,12 @@
   "collection": "Collection 2024 / Series I",
   "price": "$32.00",
   "colors": ["#f8f7f4", "#1a1a1a"],
-  "modelPath": null,
-  "texture": "textures/placa-google.webp",
+  "models": [
+    { "id": "acrilico-l", "label": "Acrílico", "type": "stand", "texture": "textures/placa-google.webp", "thumb": "thumbs/acrilico-l.webp" },
+    { "id": "quadrada", "label": "Quadrada", "type": "square", "texture": "textures/placa-quadrada.webp", "thumb": "thumbs/quadrada.webp" },
+    { "id": "dourada", "label": "Dourada", "type": "embossed", "finish": "gold", "thumb": "thumbs/dourada.webp" },
+    { "id": "preta", "label": "Preta", "type": "embossed", "finish": "black", "thumb": "thumbs/preta.webp" }
+  ],
   "hero": {
     "headline": ["Digital", "Craftsmanship"],
     "tagline": "Uma exploração sensorial através de geometria pura e interação responsiva."

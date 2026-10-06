@@ -10,23 +10,41 @@ npm run dev      # http://localhost:5173
 npm run build    # gera /dist
 ```
 
-## Trocar o produto
+## Trocar o produto e os mockups
 
-Todo o conteúdo vem de `src/data/product.json`. O layout não precisa ser alterado:
+Todo o conteúdo vem de `src/data/product.json`:
 
 | Campo | Efeito |
 | --- | --- |
-| `name`, `brand`, `price`, `collection` | Nav, rodapé fixo e seção final |
-| `colors` | `[papel, tinta]` — fundo/texto da página e cores do material 3D |
-| `modelPath` | Caminho de um `.glb` (ex.: `/models/bottle.glb` em `public/`). `null` usa a garrafa procedural |
-| `hero.headline` | Uma linha por item; a partir da 2ª linha o texto é deslocado (assimetria) |
+| `title`, `brand`, `name`, `price`, `collection` | Título do site, nav, rodapé fixo e seção final |
+| `colors` | `[papel, tinta]` — fundo/texto da página |
+| `models[]` | Mockups 3D que aparecem nos círculos do cabeçalho (o primeiro é o padrão) |
+| `hero.headline` | Uma linha por item |
 | `sections[]` | Uma tela por item. `align: "left" \| "right"` posiciona o texto; o objeto 3D vai para o lado oposto |
 | `cta` | Botão e nota da seção final |
 
-Modelos `.glb` são centralizados e normalizados automaticamente para a mesma altura. Comprima com Draco antes de publicar:
+Tipos de mockup (`models[].type`):
+
+| type | Modelo | Campos |
+| --- | --- | --- |
+| `stand` | Display de acrílico em L com a arte impressa | `texture` |
+| `square` | Placa quadrada de acrílico grosso | `texture` |
+| `embossed` | Display em L com "G" e ícone de aproximação em relevo | `finish: "gold" \| "black"` |
+| `glb` | Qualquer modelo `.glb` (centralizado e normalizado) | `path` |
+
+`texture` é a arte da frente, já plana (sem perspectiva), em `public/textures/`. Cada modelo tem um `thumb` (imagem do círculo). Para regenerar as miniaturas depois de mudar um modelo:
 
 ```bash
-npx gltf-pipeline -i bottle.glb -o public/models/bottle.glb -d
+npm run build && npx vite preview --port 4173 &
+npm run thumbs        # grava public/thumbs/<id>.webp
+```
+
+No cabeçalho, mover o mouse gira o mockup em 360° nos dois eixos (de lado a lado da tela = uma volta; de cima a baixo = uma volta). No celular, arrastar sobre a placa faz o mesmo.
+
+Modelos `.glb` devem ser comprimidos com Draco antes de publicar:
+
+```bash
+npx gltf-pipeline -i modelo.glb -o public/models/modelo.glb -d
 ```
 
 ## Como a coreografia funciona

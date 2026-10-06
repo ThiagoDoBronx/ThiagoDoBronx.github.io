@@ -1,13 +1,16 @@
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, Lightformer } from '@react-three/drei';
 import Protagonist from './Protagonist';
+import StudioLights from './StudioLights';
+import { preloadMockups } from './mockups/Mockup';
 
 /**
  * Fixed, full-screen WebGL layer. Pointer events are read from the page root
  * so the canvas itself can stay `pointer-events: none` under the copy.
  */
-export default function Scene({ product, reducedMotion, onReady }) {
+export default function Scene({ product, model, reducedMotion, onReady }) {
+  useMemo(() => preloadMockups(product.models), [product.models]);
+
   return (
     <div className="canvas-container pointer-events-none fixed inset-0 z-10" aria-hidden="true">
       <Canvas
@@ -18,18 +21,10 @@ export default function Scene({ product, reducedMotion, onReady }) {
         eventSource={document.getElementById('root')}
         eventPrefix="client"
       >
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={60} castShadow />
+        <StudioLights />
         <Suspense fallback={null}>
-          <Protagonist product={product} reducedMotion={reducedMotion} onReady={onReady} />
+          <Protagonist model={model} shadowColor={product.colors[1]} reducedMotion={reducedMotion} onReady={onReady} />
         </Suspense>
-        {/* Studio lighting built from light-formers: no HDR download needed. */}
-        <Environment resolution={256}>
-          <Lightformer form="rect" intensity={4} position={[0, 4, -6]} scale={[12, 2, 1]} />
-          <Lightformer form="rect" intensity={2.5} position={[-6, 1, 0]} rotation-y={Math.PI / 2} scale={[8, 2, 1]} />
-          <Lightformer form="rect" intensity={2.5} position={[6, 1, 0]} rotation-y={-Math.PI / 2} scale={[8, 2, 1]} />
-          <Lightformer form="ring" intensity={1.5} position={[5, 4, 6]} scale={3} />
-        </Environment>
       </Canvas>
     </div>
   );

@@ -4,7 +4,7 @@ import Scene from './components/Scene';
 import Loader from './components/Loader';
 import Nav from './components/Nav';
 import { Finale, Hero, Showcase, StorySection } from './components/Sections';
-import { buildPoses, gsap, intro, pose } from './lib/choreography';
+import { buildPoses, gsap, intro, pose, resetSpin } from './lib/choreography';
 import useLenis from './lib/useLenis';
 import useSpinControls from './lib/useSpinControls';
 
@@ -15,6 +15,7 @@ export default function App() {
   const progress = useRef();
   const [sceneReady, setSceneReady] = useState(false);
   const [entered, setEntered] = useState(false);
+  const [selected, setSelected] = useState(0);
 
   const reducedMotion = useMemo(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -26,6 +27,10 @@ export default function App() {
 
   const onSceneReady = useCallback(() => setSceneReady(true), []);
   const onLoaderDone = useCallback(() => setEntered(true), []);
+  const onSelectModel = useCallback((i) => {
+    resetSpin();
+    setSelected(i);
+  }, []);
 
   // Theme the page from the product definition.
   useLayoutEffect(() => {
@@ -120,11 +125,11 @@ export default function App() {
   return (
     <>
       <Loader ready={sceneReady} brand={product.brand} onDone={onLoaderDone} />
-      <Scene product={product} reducedMotion={reducedMotion} onReady={onSceneReady} />
+      <Scene product={product} model={product.models[selected]} reducedMotion={reducedMotion} onReady={onSceneReady} />
       <Nav ref={progress} product={product} />
 
       <main ref={container} className="main-container relative">
-        <Showcase title={product.title} />
+        <Showcase title={product.title} models={product.models} selected={selected} onSelect={onSelectModel} />
         <Hero hero={product.hero} />
         {product.sections.map((section, i) => (
           <StorySection key={section.title} section={section} index={i} />

@@ -48,3 +48,9 @@ html {
   display: block;
   will-change: transform;
 }
+
+/* Thumbnail render mode (scripts/thumbs.mjs). */
+html:has(#thumb),
+body:has(#thumb) {
+  background: transparent;
+}

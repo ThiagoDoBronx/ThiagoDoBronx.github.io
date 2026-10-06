@@ -83,27 +83,16 @@ export function StorySection({ section, index }) {
   );
 }
 
-export function Finale({ product }) {
-  const { cta } = product;
+export function Finale({ product, index }) {
   return (
-    <section data-section className="relative flex h-svh items-end px-[8vw] pb-[13vh] md:pb-[8vw]">
-      {/* At 100% scroll the mockup can be spun again, like in the showcase. */}
-      <div data-spin-stage className="absolute top-[10vh] right-[6vw] bottom-[52vh] left-[6vw] touch-none md:hidden" />
-      <p data-end-hint className="label absolute inset-x-0 top-[8.5vh] z-20 text-center opacity-0 transition-opacity duration-700 md:top-[9vh]">
-        <span className="hidden md:inline">Passe o mouse para girar 360°</span>
-        <span className="md:hidden">Arraste a placa para girar 360°</span>
-      </p>
-
-      <div className="relative z-20 flex w-full flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-10">
-        <div className="max-w-md">
-          <p data-reveal className="label opacity-40">
-            {cta.step}
-          </p>
-          <h2 className="mt-4 font-serif text-3xl leading-[1.05] italic md:text-5xl">
-            <span className="line">
-              <span data-reveal-line>{cta.question}</span>
-            </span>
-          </h2>
+    <section data-section className="relative flex h-svh items-end px-[8vw] pt-[8vw] pb-[14vh] md:pb-[8vw]">
+      {/* Touch area to spin the mockup at 100% scroll (invisible). */}
+      <div data-spin-stage className="absolute top-[10vh] right-[6vw] bottom-[55vh] left-[6vw] touch-none md:hidden" />
+      <div className="relative z-20 flex w-full flex-col gap-10 pt-10 md:flex-row md:items-end md:justify-between">
+        <div>
+          <div data-reveal className="text-7xl font-thin opacity-10 md:text-8xl">
+            {pad(index)}
+          </div>
           <p data-reveal className="label mt-6 opacity-50">
             {product.brand} — {product.name}
           </p>
@@ -116,10 +105,10 @@ export function Finale({ product }) {
             type="button"
             className="group relative cursor-pointer overflow-hidden rounded-full border border-ink px-12 py-5 transition-colors duration-500 hover:text-paper"
           >
-            <span className="label relative z-10 font-semibold">{cta.label}</span>
+            <span className="label relative z-10 font-semibold">{product.cta.label}</span>
             <span className="absolute inset-0 translate-y-full bg-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
           </button>
-          <span className="label opacity-40">{cta.note}</span>
+          <span className="label opacity-40">{product.cta.note}</span>
         </div>
       </div>
     </section>

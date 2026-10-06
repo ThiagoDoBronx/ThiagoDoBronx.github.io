@@ -54,8 +54,3 @@ html:has(#thumb),
 body:has(#thumb) {
   background: transparent;
 }
-
-/* Spin hint in the finale, shown only at 100% scroll. */
-html[data-end] [data-end-hint] {
-  opacity: 0.5;
-}

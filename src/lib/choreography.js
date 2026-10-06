@@ -82,9 +82,7 @@ export function buildPoses(sections) {
     });
   });
 
-  // Finale: on portrait screens lift it higher and a bit smaller so the
-  // offer below has room.
-  poses.push({ x: 0, y: 0.16, rotY: 0, rotZ: 0, scale: 0.85, m: 1.2, ms: 0.85 });
+  poses.push({ x: 0, y: 0.16, rotY: 0, rotZ: 0, scale: 0.85, m: 1, ms: 1 });
 
   return poses;
 }

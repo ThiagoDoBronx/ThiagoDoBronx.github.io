@@ -8,7 +8,7 @@ import { preloadMockups } from './mockups/Mockup';
  * Fixed, full-screen WebGL layer. Pointer events are read from the page root
  * so the canvas itself can stay `pointer-events: none` under the copy.
  */
-export default function Scene({ product, model, reducedMotion, onReady }) {
+export default function Scene({ product, model, flight, onFlightDone, reducedMotion, onReady }) {
   useMemo(() => preloadMockups(product.models), [product.models]);
 
   return (
@@ -23,7 +23,11 @@ export default function Scene({ product, model, reducedMotion, onReady }) {
       >
         <StudioLights />
         <Suspense fallback={null}>
-          <Protagonist model={model} shadowColor={product.colors[1]} reducedMotion={reducedMotion} onReady={onReady} />
+          <Protagonist
+            model={model}
+            flight={flight}
+            onFlightDone={onFlightDone}
+            shadowColor={product.colors[1]} reducedMotion={reducedMotion} onReady={onReady} />
         </Suspense>
       </Canvas>
     </div>

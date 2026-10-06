@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import product from './data/product.json';
 import Mockup from './components/mockups/Mockup';
 import StudioLights from './components/StudioLights';
+import { THUMB_POSE } from './lib/choreography';
 
 /**
  * `?thumb=<model id>` renders a single mockup on a transparent square,
@@ -20,7 +21,7 @@ export default function ThumbStage({ id }) {
       >
         <StudioLights />
         <Suspense fallback={null}>
-          <group rotation={[0.08, -0.45, 0]} position={[0, -0.05, 0]}>
+          <group rotation={[THUMB_POSE.pitch, THUMB_POSE.yaw, 0]} position={[0, -0.05, 0]}>
             <Mockup model={model} />
           </group>
         </Suspense>

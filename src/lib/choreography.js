@@ -11,7 +11,7 @@ export { gsap, ScrollTrigger };
  *
  * x / y are normalised to the half-viewport (-1 … 1), rotations in radians.
  */
-export const pose = { x: 0, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0 };
+export const pose = { x: -0.04, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0 };
 
 /**
  * Free 360° spin (yaw + pitch) driven by the pointer (mouse / finger) while
@@ -35,42 +35,40 @@ export function showcaseWeight() {
 }
 
 /** Pose the object takes in the showcase header: alone, centred, face-on. */
-const SHOWCASE = { x: 0, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0 };
+const SHOWCASE = { x: -0.04, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0 };
+
+/**
+ * How the picker thumbnails are framed (see ThumbStage): the mockup's
+ * rotation and how much of the circle's height it fills. Used so a mockup
+ * flying in/out of a circle lines up with its thumbnail.
+ */
+export const THUMB_POSE = { pitch: 0.08, yaw: -0.45, fill: 0.64 };
 
 /** Intro factor (0 → 1) played once the loader lifts. */
 export const intro = { v: 0 };
 
 /**
  * One keyframe per page section: showcase, hero, every product section, finale.
+ * The object sits on the side opposite to the copy and always stays facing
+ * the viewer — only a slight lean towards the text keeps it feeling alive.
  * `m` (0…1) is how much the portrait-screen layout shift applies.
- * The object always sits on the side opposite to the copy, so the
- * text column keeps its negative space and the object owns the other half.
  */
 export function buildPoses(sections) {
-  const poses = [SHOWCASE, { x: 0.38, y: 0, rotY: -0.32, rotZ: -0.05, scale: 1, m: 1 }];
+  const poses = [SHOWCASE, { x: 0.38, y: 0, rotY: -0.12, rotZ: -0.03, scale: 1, m: 1 }];
 
   sections.forEach((section, i) => {
     const side = section.align === 'right' ? -1 : 1;
     poses.push({
       x: 0.42 * side,
       y: i % 2 ? 0.08 : -0.06,
-      // Turn the face towards the copy, never past ~30° so the print stays legible.
-      rotY: -0.5 * side,
-      rotZ: 0.06 * -side,
-      scale: 1.05 + (i % 2) * 0.1,
+      rotY: -0.14 * side,
+      rotZ: 0.03 * -side,
+      scale: 1.05,
       m: 1,
     });
   });
 
-  poses.push({
-    x: 0,
-    y: 0.16,
-    // One full turn on the way to the finale, landing face-on.
-    rotY: Math.PI * 2,
-    rotZ: 0,
-    scale: 0.85,
-    m: 1,
-  });
+  poses.push({ x: 0, y: 0.16, rotY: 0, rotZ: 0, scale: 0.85, m: 1 });
 
   return poses;
 }

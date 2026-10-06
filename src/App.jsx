@@ -15,7 +15,11 @@ export default function App() {
   const progress = useRef();
   const [sceneReady, setSceneReady] = useState(false);
   const [entered, setEntered] = useState(false);
-  const [selected, setSelected] = useState(0);
+  // The mockup on stage, the ones waiting in the picker circles, and the
+  // swap in progress (if any).
+  const [mainIndex, setMainIndex] = useState(0);
+  const [slots, setSlots] = useState(() => product.models.map((_, i) => i).slice(1));
+  const [flight, setFlight] = useState(null);
 
   const reducedMotion = useMemo(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -27,9 +31,26 @@ export default function App() {
 
   const onSceneReady = useCallback(() => setSceneReady(true), []);
   const onLoaderDone = useCallback(() => setEntered(true), []);
-  const onSelectModel = useCallback((i) => {
-    resetSpin();
-    setSelected(i);
+  const onSelectModel = useCallback(
+    (slot, rect) => {
+      if (flight) return;
+      resetSpin();
+      setFlight({
+        key: Date.now(),
+        slot,
+        rect,
+        outgoing: product.models[mainIndex],
+        outgoingIndex: mainIndex,
+      });
+      setMainIndex(slots[slot]);
+    },
+    [flight, mainIndex, slots],
+  );
+  const onFlightDone = useCallback(() => {
+    setFlight((f) => {
+      if (f) setSlots((s) => s.map((m, i) => (i === f.slot ? f.outgoingIndex : m)));
+      return null;
+    });
   }, []);
 
   // Theme the page from the product definition.
@@ -125,11 +146,23 @@ export default function App() {
   return (
     <>
       <Loader ready={sceneReady} brand={product.brand} onDone={onLoaderDone} />
-      <Scene product={product} model={product.models[selected]} reducedMotion={reducedMotion} onReady={onSceneReady} />
+      <Scene
+        product={product}
+        model={product.models[mainIndex]}
+        flight={flight}
+        onFlightDone={onFlightDone}
+        reducedMotion={reducedMotion}
+        onReady={onSceneReady}
+      />
       <Nav ref={progress} product={product} />
 
       <main ref={container} className="main-container relative">
-        <Showcase title={product.title} models={product.models} selected={selected} onSelect={onSelectModel} />
+        <Showcase
+          title={product.title}
+          models={slots.map((i) => product.models[i])}
+          flyingSlot={flight?.slot ?? -1}
+          onSelect={onSelectModel}
+        />
         <Hero hero={product.hero} />
         {product.sections.map((section, i) => (
           <StorySection key={section.title} section={section} index={i} />

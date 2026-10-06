@@ -3,15 +3,15 @@ import ModelPicker from './ModelPicker';
 const pad = (n) => String(n).padStart(2, '0');
 
 /** Opening screen: only the 3D plaque (rendered by the fixed canvas), the model picker and a hint. */
-export function Showcase({ title, models, selected, onSelect }) {
+export function Showcase({ title, models, flyingSlot, onSelect }) {
   return (
     <section id="top" data-section className="relative flex h-svh items-end justify-center pb-[10vh]">
       <h1 className="sr-only">{title}</h1>
       {/* Touch area for spinning; outside it the page scrolls normally. */}
-      <div data-spin-stage className="absolute inset-x-[10vw] top-[12vh] bottom-[34vh] touch-none md:hidden" />
+      <div data-spin-stage className="absolute top-[12vh] right-[24vw] bottom-[24vh] left-[6vw] touch-none md:hidden" />
 
-      <div className="absolute inset-x-0 bottom-[17vh] z-30 flex justify-center md:inset-x-auto md:right-[5vw] md:bottom-auto md:top-1/2 md:-translate-y-1/2">
-        <ModelPicker models={models} selected={selected} onSelect={onSelect} />
+      <div className="absolute top-1/2 right-4 z-30 -translate-y-1/2 md:right-[5vw]">
+        <ModelPicker models={models} flyingSlot={flyingSlot} onSelect={onSelect} />
       </div>
 
       <p data-hero-fade className="label relative z-20 text-center opacity-50">

@@ -1,0 +1,37 @@
+{
+  "id": "prod_01",
+  "name": "Ethereal Blend",
+  "brand": "AURA STUDIO",
+  "collection": "Collection 2024 / Series I",
+  "price": "$32.00",
+  "colors": ["#f8f7f4", "#1a1a1a"],
+  "modelPath": null,
+  "hero": {
+    "headline": ["Digital", "Craftsmanship"],
+    "tagline": "Uma exploração sensorial através de geometria pura e interação responsiva."
+  },
+  "sections": [
+    {
+      "label": "01 / Essence",
+      "title": "Pure Essence",
+      "body": "Grãos de altitude, torra lenta e nada além do necessário. A forma nasce da subtração — cada curva existe porque precisa existir.",
+      "align": "left"
+    },
+    {
+      "label": "02 / Motion",
+      "title": "A fluidez da forma.",
+      "body": "Cada movimento do scroll altera a perspectiva do objeto, revelando detalhes ocultos pela luz e sombra. Não é apenas um produto, é uma presença digital.",
+      "align": "right"
+    },
+    {
+      "label": "03 / Texture",
+      "title": "Tactile Poetry",
+      "body": "Vidro fumê, metal escovado e uma luva fosca que pede para ser tocada. Materiais que conversam com a luz em vez de competir com ela.",
+      "align": "left"
+    }
+  ],
+  "cta": {
+    "label": "Adquirir Experiência",
+    "note": "Edição limitada — 240 unidades numeradas."
+  }
+}

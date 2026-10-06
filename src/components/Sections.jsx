@@ -25,9 +25,9 @@ export function Showcase({ title, models, flyingSlot, onSelect }) {
 export function Hero({ hero }) {
   const [first, ...rest] = hero.headline;
   return (
-    <section data-section className="relative flex h-svh items-end px-[8vw] pb-[14vh] md:items-center md:pb-0">
+    <section data-section className="relative flex h-svh items-end px-[8vw] pb-[17vh] md:items-center md:pb-0">
       <div className="relative z-20">
-        <h2 className="font-serif text-[12.5vw] leading-[0.85] font-normal italic md:text-[10vw]">
+        <h2 className="font-serif text-[10.5vw] leading-[0.9] font-normal whitespace-nowrap italic md:text-[10vw]">
           <span className="line">
             <span data-reveal-line>{first}</span>
           </span>
@@ -85,7 +85,7 @@ export function StorySection({ section, index }) {
 export function Finale({ product, index }) {
   return (
     <section data-section className="relative flex h-svh items-end px-[8vw] pt-[8vw] pb-[14vh] md:pb-[8vw]">
-      <div className="relative z-20 flex w-full flex-col gap-10 border-t border-ink/10 pt-10 md:flex-row md:items-end md:justify-between">
+      <div className="relative z-20 flex w-full flex-col gap-10 pt-10 md:flex-row md:items-end md:justify-between">
         <div>
           <div data-reveal className="text-7xl font-thin opacity-10 md:text-8xl">
             {pad(index)}

@@ -2,11 +2,12 @@ import { useMemo } from 'react';
 import * as THREE from 'three';
 
 /**
- * Cheap blurred floor shadow: a radial-gradient texture on a flat plane.
+ * Cheap blurred floor shadow: a radial-gradient texture on a plane tilted
+ * slightly towards the camera (so it never collapses into a hard line).
  * Replaces drei's ContactShadows, which re-rendered the scene and blurred it
  * on every frame.
  */
-export default function SoftShadow({ color = '#1a1a1a', opacity = 0.3, width = 4.6, depth = 1.6, y = -1.8 }) {
+export default function SoftShadow({ color = '#1a1a1a', opacity = 0.3, width = 3.6, depth = 0.9, y = -1.8 }) {
   const texture = useMemo(() => {
     const size = 128;
     const canvas = document.createElement('canvas');
@@ -24,7 +25,7 @@ export default function SoftShadow({ color = '#1a1a1a', opacity = 0.3, width = 4
   }, []);
 
   return (
-    <mesh position={[0, y, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[width, depth, 1]} renderOrder={-1}>
+    <mesh position={[0, y, 0]} rotation={[-Math.PI / 2 + 0.55, 0, 0]} scale={[width, depth, 1]} renderOrder={-1}>
       <planeGeometry />
       <meshBasicMaterial color={color} map={texture} transparent opacity={opacity} depthWrite={false} toneMapped={false} />
     </mesh>

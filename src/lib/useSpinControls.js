@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { showcaseWeight, spin } from './choreography';
+import { spin, spinWeight } from './choreography';
 
 const TURN = Math.PI * 2;
 const MAX_STEP = 120; // px — ignore jumps (pointer re-entering the window)
 
 /**
- * Free 360° spin on both axes for the showcase header.
+ * Free 360° spin on both axes, in the showcase header and at 100% scroll.
  * - Mouse: just moving the pointer turns the object — crossing the whole
  *   screen sideways is one full turn, top-to-bottom is one full flip.
  *   Moving over the model picker (`[data-no-spin]`) doesn't rotate.
@@ -27,7 +27,7 @@ export default function useSpinControls() {
       if (e.pointerType !== 'mouse') return;
       const prev = last;
       last = { x: e.clientX, y: e.clientY };
-      if (!prev || showcaseWeight() === 0 || e.target.closest?.('[data-no-spin]')) return;
+      if (!prev || spinWeight() === 0 || e.target.closest?.('[data-no-spin]')) return;
       rotateBy(last.x - prev.x, last.y - prev.y);
     };
     const onPointerLeave = () => {
@@ -39,7 +39,7 @@ export default function useSpinControls() {
       last = { x: e.touches[0].clientX, y: e.touches[0].clientY };
     };
     const onTouchMove = (e) => {
-      if (!touching || !last || showcaseWeight() === 0) return;
+      if (!touching || !last || spinWeight() === 0) return;
       const t = e.touches[0];
       rotateBy((t.clientX - last.x) * 1.2, (t.clientY - last.y) * 1.2);
       last = { x: t.clientX, y: t.clientY };

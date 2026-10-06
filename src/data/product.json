@@ -5,39 +5,71 @@
   "brand": "VITRINE VIVA",
   "collection": "Vitrine Viva 2026 / Series NFC",
   "price": "R$ 199,00",
-  "colors": ["#f8f7f4", "#1a1a1a"],
+  "colors": [
+    "#f8f7f4",
+    "#1a1a1a"
+  ],
   "models": [
-    { "id": "acrilico-l", "label": "Acrílico", "type": "stand", "texture": "textures/placa-google.webp", "thumb": "thumbs/acrilico-l.webp" },
-    { "id": "quadrada", "label": "Quadrada", "type": "square", "texture": "textures/placa-quadrada.webp", "thumb": "thumbs/quadrada.webp" },
-    { "id": "dourada", "label": "Dourada", "type": "embossed", "finish": "gold", "thumb": "thumbs/dourada.webp" },
-    { "id": "preta", "label": "Preta", "type": "embossed", "finish": "black", "thumb": "thumbs/preta.webp" }
+    {
+      "id": "acrilico-l",
+      "label": "Acrílico",
+      "type": "stand",
+      "texture": "textures/placa-google.webp",
+      "thumb": "thumbs/acrilico-l.webp"
+    },
+    {
+      "id": "quadrada",
+      "label": "Quadrada",
+      "type": "square",
+      "texture": "textures/placa-quadrada.webp",
+      "thumb": "thumbs/quadrada.webp"
+    },
+    {
+      "id": "dourada",
+      "label": "Dourada",
+      "type": "embossed",
+      "finish": "gold",
+      "thumb": "thumbs/dourada.webp"
+    },
+    {
+      "id": "preta",
+      "label": "Preta",
+      "type": "embossed",
+      "finish": "black",
+      "thumb": "thumbs/preta.webp"
+    }
   ],
   "hero": {
-    "headline": ["Seja reconhecido", "Placas NFC"],
+    "headline": [
+      "Seja reconhecido",
+      "Placas NFC"
+    ],
     "tagline": "Sua empresa precisa se destacar das outras, com qualidade premium entregamos resultados, e não apenas uma placa comum para avaliações!"
   },
   "sections": [
     {
-      "label": "01 / Essence",
-      "title": "Pure Essence",
-      "body": "Grãos de altitude, torra lenta e nada além do necessário. A forma nasce da subtração — cada curva existe porque precisa existir.",
+      "label": "01 / Reputação",
+      "title": "Parece que o seu melhor trabalho está invisível.",
+      "body": "Você entrega um atendimento impecável — e quem ainda não te conhece decide pelas estrelas que vê no Google. Cada cliente satisfeito que vai embora sem avaliar é uma recomendação que fica para o concorrente.",
       "align": "left"
     },
     {
-      "label": "02 / Motion",
-      "title": "A fluidez da forma.",
-      "body": "Cada movimento do scroll altera a perspectiva do objeto, revelando detalhes ocultos pela luz e sombra. Não é apenas um produto, é uma presença digital.",
+      "label": "02 / Experiência",
+      "title": "Um toque. Cinco estrelas.",
+      "body": "Sem link, sem aplicativo, sem constrangimento. O cliente aproxima o celular ou aponta a câmera e chega direto à sua página de avaliação. Acrílico cristalino, dourado ou preto fosco: um objeto que eleva o balcão e anuncia que, aqui, o padrão é outro.",
       "align": "right"
     },
     {
-      "label": "03 / Texture",
-      "title": "Tactile Poetry",
-      "body": "Vidro fumê, metal escovado e uma luva fosca que pede para ser tocada. Materiais que conversam com a luz em vez de competir com ela.",
+      "label": "03 / Assinatura",
+      "title": "Não é só uma placa.",
+      "body": "Você pode estar pensando que é só uma placa — e seria, se fosse feita por qualquer um. Aqui você é atendido por um criador de páginas profissional: o mesmo cuidado deste site vai para a sua placa e para a página que você ganha junto.",
       "align": "left"
     }
   ],
   "cta": {
+    "step": "04 / Decisão",
+    "question": "Faz sentido deixar o concorrente ser lembrado primeiro?",
     "label": "Adquirir Experiência",
-    "note": "Edição limitada — 240 unidades numeradas."
+    "note": "Personalizada com a sua marca · Página profissional inclusa"
   }
 }

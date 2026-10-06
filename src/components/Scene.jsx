@@ -19,8 +19,7 @@ export default function Scene({ product, model, flight, onFlightDone, reducedMot
       <Canvas
         dpr={dpr}
         camera={{ position: [0, 0, 9], fov: 35 }}
-        // MSAA is barely visible on high-density screens but costs a lot there.
-        gl={{ antialias: (window.devicePixelRatio || 1) < 1.5, alpha: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         eventSource={document.getElementById('root')}
         eventPrefix="client"
       >

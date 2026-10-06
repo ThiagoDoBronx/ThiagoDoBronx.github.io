@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
-import { THUMB_POSE, gsap, intro, pose, showcaseWeight, spin } from '../lib/choreography';
+import { THUMB_POSE, gsap, intro, pose, resetSpin, spin, spinWeight } from '../lib/choreography';
 import Mockup from './mockups/Mockup';
 import SoftShadow from './SoftShadow';
 
@@ -47,7 +47,7 @@ export default function Protagonist({ model, flight, onFlightDone, shadowColor, 
     // in the upper half (copy sits at the bottom) and drifts less sideways.
     const xRange = narrow ? 0.3 : 1;
     const yShift = narrow ? halfH * 0.3 * pose.m : 0;
-    const base = narrow ? Math.min(0.7, viewport.width / 4.2) : 1;
+    const base = narrow ? Math.min(0.7, viewport.width / 4.2) * pose.ms : 1;
     const k = intro.v;
 
     const main = {
@@ -56,8 +56,10 @@ export default function Protagonist({ model, flight, onFlightDone, shadowColor, 
       s: pose.scale * base * (0.6 + 0.4 * k),
     };
 
-    // Free 360° spin (both axes) only counts while the showcase is on screen.
-    const w = showcaseWeight();
+    // Free 360° spin (both axes) only counts in the showcase and at 100%
+    // scroll; in between it eases back to face-on.
+    const w = spinWeight();
+    if (w === 0 && (spin.target || spin.pitchTarget)) resetSpin();
     spin.current = THREE.MathUtils.damp(spin.current, spin.target, 4, delta);
     spin.pitch = THREE.MathUtils.damp(spin.pitch, spin.pitchTarget, 4, delta);
     const yaw = pose.rotY - (1 - k) * Math.PI + spin.current * w;
@@ -90,7 +92,7 @@ export default function Protagonist({ model, flight, onFlightDone, shadowColor, 
       turn.current.rotation.set(0, yaw, pose.rotZ);
     }
 
-    // Gentle pointer parallax outside the showcase, so it never turns away.
+    // Gentle pointer parallax elsewhere, so it never turns away.
     const { x, y } = state.pointer;
     tilt.current.rotation.y = lerp(tilt.current.rotation.y, x * 0.25 * (1 - w), 0.08);
     tilt.current.rotation.x = lerp(tilt.current.rotation.x, -y * 0.15 * (1 - w), 0.08);

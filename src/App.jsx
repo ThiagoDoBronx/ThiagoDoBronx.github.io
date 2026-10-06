@@ -91,6 +91,8 @@ export default function App() {
             if (progress.current) {
               progress.current.textContent = String(Math.round(self.progress * 100)).padStart(3, '0');
             }
+            // Reached the end: the mockup can be spun again (shows the hint).
+            document.documentElement.toggleAttribute('data-end', self.progress > 0.985);
           },
         },
       });
@@ -141,8 +143,6 @@ export default function App() {
     return () => tl.kill();
   }, [entered, reducedMotion]);
 
-  const lastIndex = product.sections.length + 1;
-
   return (
     <>
       <Loader ready={sceneReady} brand={product.brand} onDone={onLoaderDone} />
@@ -167,7 +167,7 @@ export default function App() {
         {product.sections.map((section, i) => (
           <StorySection key={section.title} section={section} index={i} />
         ))}
-        <Finale product={product} index={lastIndex} />
+        <Finale product={product} />
       </main>
     </>
   );

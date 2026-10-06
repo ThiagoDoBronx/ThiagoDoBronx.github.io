@@ -38,14 +38,19 @@ export function Acrylic(props) {
   );
 }
 
-/** White backing behind a print, seen through the acrylic from behind. */
-export function Backing({ width, height, z }) {
+/** Backing behind a print (white by default), seen through the acrylic from behind. */
+export function Backing({ width, height, z, color = '#ffffff', emissive = '#e6e6e3' }) {
   return (
     <mesh position={[0, 0, z]} rotation={[0, Math.PI, 0]}>
       <planeGeometry args={[width, height]} />
-      <meshStandardMaterial color="#ffffff" emissive="#e6e6e3" emissiveIntensity={0.55} roughness={0.8} />
+      <meshStandardMaterial color={color} emissive={emissive} emissiveIntensity={0.55} roughness={0.8} />
     </mesh>
   );
+}
+
+/** Glossy black acrylic, for stands and plaques made of solid black sheet. */
+export function BlackAcrylic(props) {
+  return <meshPhysicalMaterial color="#0c0c0c" roughness={0.22} metalness={0} clearcoat={1} clearcoatRoughness={0.05} {...props} />;
 }
 
 /** Unlit print so the artwork keeps its true colours under any lighting. */
@@ -53,7 +58,7 @@ export function Print({ texture, width, height, z }) {
   return (
     <mesh position={[0, 0, z]}>
       <planeGeometry args={[width, height]} />
-      <meshBasicMaterial map={texture} toneMapped={false} />
+      <meshBasicMaterial map={texture} toneMapped={false} alphaTest={0.5} />
     </mesh>
   );
 }

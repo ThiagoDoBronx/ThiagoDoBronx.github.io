@@ -11,7 +11,7 @@ export { gsap, ScrollTrigger };
  *
  * x / y are normalised to the half-viewport (-1 … 1), rotations in radians.
  */
-export const pose = { x: -0.04, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0, ms: 1 };
+export const pose = { x: -0.04, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0, ms: 1, mx: -0.16 };
 
 /**
  * Free 360° spin (yaw + pitch) driven by the pointer (mouse / finger) while
@@ -48,7 +48,7 @@ export function spinWeight() {
 }
 
 /** Pose the object takes in the showcase header: alone, centred, face-on. */
-const SHOWCASE = { x: -0.04, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0, ms: 1 };
+const SHOWCASE = { x: -0.04, y: 0.02, rotY: 0, rotZ: 0, scale: 1.05, m: 0, ms: 1, mx: -0.16 };
 
 /**
  * How the picker thumbnails are framed (see ThumbStage): the mockup's
@@ -64,10 +64,11 @@ export const intro = { v: 0 };
  * One keyframe per page section: showcase, hero, every product section, finale.
  * The object sits on the side opposite to the copy and always stays facing
  * the viewer — only a slight lean towards the text keeps it feeling alive.
- * On portrait screens, `m` scales the upward layout shift and `ms` the size.
+ * On portrait screens, `m` scales the upward layout shift, `ms` the size and
+ * `mx` adds a sideways nudge (fraction of half the width).
  */
 export function buildPoses(sections) {
-  const poses = [SHOWCASE, { x: 0.52, y: 0, rotY: -0.12, rotZ: -0.03, scale: 0.95, m: 1, ms: 1 }];
+  const poses = [SHOWCASE, { x: 0.52, y: 0, rotY: -0.12, rotZ: -0.03, scale: 0.95, m: 1, ms: 1, mx: 0 }];
 
   sections.forEach((section, i) => {
     const side = section.align === 'right' ? -1 : 1;
@@ -79,10 +80,11 @@ export function buildPoses(sections) {
       scale: 1.05,
       m: 1,
       ms: 1,
+      mx: 0,
     });
   });
 
-  poses.push({ x: 0, y: 0.16, rotY: 0, rotZ: 0, scale: 0.85, m: 1, ms: 1 });
+  poses.push({ x: 0, y: 0.16, rotY: 0, rotZ: 0, scale: 0.85, m: 1, ms: 1, mx: 0 });
 
   return poses;
 }

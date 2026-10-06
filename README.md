@@ -27,12 +27,13 @@ Tipos de mockup (`models[].type`):
 
 | type | Modelo | Campos |
 | --- | --- | --- |
-| `stand` | Display de acrílico em L com a arte impressa | `texture` |
-| `square` | Placa quadrada de acrílico grosso | `texture` |
+| `stand` | Display em L com a arte impressa | `texture`, `finish: "clear" \| "black"` |
+| `plaque` (ou `square`) | Placa de acrílico grosso; proporção segue a arte (quadrada, retrato…) | `texture`, `backing: "black"` opcional |
 | `embossed` | Display em L com "G" e ícone de aproximação em relevo | `finish: "gold" \| "black"` |
+| `card` | Cartão de visita em papel | `texture` |
 | `glb` | Qualquer modelo `.glb` (centralizado e normalizado) | `path` |
 
-`texture` é a arte da frente, já plana (sem perspectiva), em `public/textures/`. Cada modelo tem um `thumb` (imagem do círculo). Para regenerar as miniaturas depois de mudar um modelo:
+`texture` é a arte da frente, já plana (sem perspectiva), em `public/textures/` (cantos transparentes são respeitados). `scale` opcional ajusta o tamanho de peças mais largas. Cada modelo tem um `thumb` (imagem do círculo). Para regenerar as miniaturas depois de mudar um modelo:
 
 ```bash
 npm run build && npx vite preview --port 4173 &

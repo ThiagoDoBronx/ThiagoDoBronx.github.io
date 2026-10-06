@@ -37,6 +37,31 @@
       "type": "embossed",
       "finish": "black",
       "thumb": "thumbs/preta.webp"
+    },
+    {
+      "id": "preta-cores",
+      "label": "Preta Cores",
+      "type": "plaque",
+      "texture": "textures/placa-preta-cores.webp",
+      "backing": "black",
+      "thumb": "thumbs/preta-cores.webp",
+      "scale": 0.92
+    },
+    {
+      "id": "avalie-l",
+      "label": "Avalie-nos",
+      "type": "stand",
+      "finish": "black",
+      "texture": "textures/placa-avalie-l.webp",
+      "thumb": "thumbs/avalie-l.webp"
+    },
+    {
+      "id": "cartao",
+      "label": "Cartão de visita",
+      "type": "card",
+      "texture": "textures/cartao-visita.webp",
+      "thumb": "thumbs/cartao.webp",
+      "scale": 0.8
     }
   ],
   "hero": {

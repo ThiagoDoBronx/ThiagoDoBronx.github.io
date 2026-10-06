@@ -51,7 +51,7 @@ export default function Protagonist({ model, flight, onFlightDone, shadowColor, 
     const k = intro.v;
 
     const main = {
-      x: pose.x * halfW * xRange,
+      x: pose.x * halfW * xRange + (narrow ? pose.mx * halfW : 0),
       y: pose.y * halfH * (narrow ? 0.3 : 1) + yShift,
       s: pose.scale * base * (0.6 + 0.4 * k),
     };

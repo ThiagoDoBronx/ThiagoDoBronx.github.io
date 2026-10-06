@@ -1,4 +1,5 @@
 import ModelPicker from './ModelPicker';
+import { whatsappUrl } from '../lib/whatsapp';
 
 const pad = (n) => String(n).padStart(2, '0');
 
@@ -83,7 +84,9 @@ export function StorySection({ section, index }) {
   );
 }
 
-export function Finale({ product, index }) {
+export function Finale({ product, index, model }) {
+  const { number, purchase } = product.whatsapp;
+  const message = purchase.replace('{model}', model.label).replace('{price}', product.price);
   return (
     <section data-section className="relative flex h-svh items-end px-[8vw] pt-[8vw] pb-[14vh] md:pb-[8vw]">
       {/* Touch area to spin the mockup at 100% scroll (invisible). */}
@@ -101,13 +104,15 @@ export function Finale({ product, index }) {
           </p>
         </div>
         <div data-reveal className="flex flex-col items-start gap-4 md:items-end">
-          <button
-            type="button"
-            className="group relative cursor-pointer overflow-hidden rounded-full border border-ink px-12 py-5 transition-colors duration-500 hover:text-paper"
+          <a
+            href={whatsappUrl(number, message)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative inline-block cursor-pointer overflow-hidden rounded-full border border-ink px-12 py-5 transition-colors duration-500 hover:text-paper"
           >
             <span className="label relative z-10 font-semibold">{product.cta.label}</span>
             <span className="absolute inset-0 translate-y-full bg-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
-          </button>
+          </a>
           <span className="label opacity-40">{product.cta.note}</span>
         </div>
       </div>

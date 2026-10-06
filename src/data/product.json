@@ -69,5 +69,10 @@
   "cta": {
     "label": "Adquirir Experiência",
     "note": "Edição limitada — 240 unidades numeradas."
+  },
+  "whatsapp": {
+    "number": "5515936182306",
+    "contact": "Olá! Vim pelo site da Vitrine Viva e quero conhecer as Placas NFC. Pode me ajudar a escolher a ideal para a minha empresa?",
+    "purchase": "Olá! Vim pelo site da Vitrine Viva e quero garantir a minha Placa NFC — modelo {model} ({price}). Como fazemos para fechar o pedido?"
   }
 }

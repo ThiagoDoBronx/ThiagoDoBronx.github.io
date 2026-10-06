@@ -167,7 +167,7 @@ export default function App() {
         {product.sections.map((section, i) => (
           <StorySection key={section.title} section={section} index={i} />
         ))}
-        <Finale product={product} index={lastIndex} />
+        <Finale product={product} index={lastIndex} model={product.models[mainIndex]} />
       </main>
     </>
   );

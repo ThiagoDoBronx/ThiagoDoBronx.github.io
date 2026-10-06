@@ -88,7 +88,7 @@ export function Finale({ product, index, model }) {
   const { number, purchase } = product.whatsapp;
   const message = purchase.replace('{model}', model.label).replace('{price}', product.price);
   return (
-    <section data-section className="relative flex h-svh items-end px-[8vw] pt-[8vw] pb-[14vh] md:pb-[8vw]">
+    <section data-section className="relative flex h-svh items-end px-[8vw] pt-[8vw] pb-[14vh] md:pb-[calc(8vw+3.5rem)]">
       {/* Touch area to spin the mockup at 100% scroll (invisible). */}
       <div data-spin-stage className="absolute top-[10vh] right-[6vw] bottom-[55vh] left-[6vw] md:hidden" />
       <div className="relative z-20 flex w-full flex-col gap-10 pt-10 md:flex-row md:items-end md:justify-between">

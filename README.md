@@ -45,4 +45,4 @@ npx gltf-pipeline -i bottle.glb -o public/models/bottle.glb -d
 npm run deploy   # build + push de dist/ para o branch gh-pages
 ```
 
-Página: https://thiagodobronx.github.io/SITE/ (em *Settings → Pages*, a fonte deve ser o branch `gh-pages`, pasta `/ (root)`).
+Página: `https://thiagodobronx.github.io/<nome-do-repo>/` — ou `https://thiagodobronx.github.io/` se o repositório se chamar `ThiagoDoBronx.github.io` (em *Settings → Pages*, a fonte deve ser o branch `gh-pages`, pasta `/ (root)`).

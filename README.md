@@ -38,3 +38,11 @@ npx gltf-pipeline -i bottle.glb -o public/models/bottle.glb -d
 - Lenis é dirigido pelo ticker do GSAP, mantendo ScrollTrigger sincronizado. Com `prefers-reduced-motion`, Lenis e a flutuação são desativados.
 - Em telas retrato o objeto ocupa a metade de cima e o texto vai para baixo, preservando a legibilidade.
 - A iluminação de estúdio usa `Lightformer`s (sem download de HDR).
+
+## Publicar no GitHub Pages
+
+```bash
+npm run deploy   # build + push de dist/ para o branch gh-pages
+```
+
+Página: https://thiagodobronx.github.io/SITE/ (em *Settings → Pages*, a fonte deve ser o branch `gh-pages`, pasta `/ (root)`).
